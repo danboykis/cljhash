@@ -12,6 +12,7 @@
 (defprotocol Hashable
   (hash! [obj ^PrimitiveSink ps]))
 
+;; convenience protocol for hex and base64 string repr
 (defprotocol Encodable
   (to-hex [_])
   (to-base64 [_]))
