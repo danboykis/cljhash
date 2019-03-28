@@ -1,7 +1,8 @@
 # cljhash
 
 A [Guava](https://github.com/google/guava) based library for hashing clojure edn. This library is inspired by [aesahaettr
-](https://github.com/aphyr/aesahaettr) but with less ambitious goals and easier spelling.
+](https://github.com/aphyr/aesahaettr) but with less ambitious goals and easier spelling. The hash of clojure's edn should be
+independent of JVM architecture and Object.hashCode implementations.
 
 ## Usage
 
