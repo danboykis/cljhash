@@ -6,7 +6,7 @@
            [java.util Date UUID]
            [com.google.common.io BaseEncoding]))
 
-(defn hash-obj! [^HashFunction hf ^Funnel funnel obj]
+(defn hash-obj [^HashFunction hf ^Funnel funnel obj]
   (.hashObject hf obj funnel))
 
 (defprotocol Hashable
@@ -23,7 +23,7 @@
       (hash! from into))))
 
 (defn clj-hash [^HashFunction hf obj]
-  (hash-obj! hf cljhash-funnel obj))
+  (hash-obj hf cljhash-funnel obj))
 
 (extend-protocol Hashable
   nil         (hash! [_ ps] (.putBoolean ps false))
@@ -50,7 +50,7 @@
   ISeq        (hash! [^ISeq obj ^PrimitiveSink ps]    (doseq [elem obj] (hash! elem ps)))
   Seqable     (hash! [^Seqable obj ^PrimitiveSink ps] (hash! (.seq obj) ps))
   Sequential  (hash! [^Sequential obj ^PrimitiveSink ps]  (doseq [elem obj] (hash! elem ps)))
-  Associative (hash! [^Associative obj ^PrimitiveSink ps] (doseq [entry obj] (hash! ^IMapEntry entry ps))))
+  Associative (hash! [^Associative obj ^PrimitiveSink ps] (doseq [entry (set obj)] (hash! ^IMapEntry entry ps))))
 
 (extend-type HashCode
   Encodable
