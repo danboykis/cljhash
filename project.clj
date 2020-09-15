@@ -2,5 +2,5 @@
   :description "hashing clojure edn"
   :url "https://github.com/danboykis/cljhash"
   :license {:name "Unlicense" :url "http://unlicense.org/"}
-  :dependencies [[org.clojure/clojure "1.9.0"]
-                 [com.google.guava/guava "26.0-jre"]])
+  :dependencies [[org.clojure/clojure "1.10.1" :scope "provided"]
+                 [com.google.guava/guava "29.0-jre"]])
