@@ -12,7 +12,7 @@ independent of JVM architecture and Object.hashCode implementations.
 
 (def foo {:a {:b #{1 2 3} :c #uuid"3b896c80-ddfc-4e73-98be-554847c0d5be"}})
 
-(def hash-code (h/clj-hash! (Hashing/sha1) foo))
+(def hash-code (h/clj-hash (Hashing/sha1) foo))
 
 (h/to-hex hash-code)
 => "ce45e1feca96d8594ac4435810ef2037fbe09146"
