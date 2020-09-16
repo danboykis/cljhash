@@ -1,4 +1,4 @@
-(defproject com.danboykis/cljhash "0.1.0-SNAPSHOT"
+(defproject com.danboykis/cljhash "0.1.0"
   :description "hashing clojure edn"
   :url "https://github.com/danboykis/cljhash"
   :license {:name "Unlicense" :url "http://unlicense.org/"}
