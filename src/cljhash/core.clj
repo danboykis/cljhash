@@ -26,13 +26,13 @@
   (hash-obj hf cljhash-funnel obj))
 
 (extend-protocol Hashable
-  nil         (hash! [_ ps] (.putBoolean ps false))
+  nil         (hash! [_ ^PrimitiveSink ps] (.putBoolean ps false))
   Boolean     (hash! [^Boolean obj ^PrimitiveSink ps] (.putBoolean ps obj))
   Byte        (hash! [^Byte obj ^PrimitiveSink ps]    (.putByte ps obj))
   Short       (hash! [^Short obj ^PrimitiveSink ps]   (.putShort ps obj))
   Integer     (hash! [^Integer obj ^PrimitiveSink ps] (.putInt ps obj))
   Long        (hash! [^Long obj ^PrimitiveSink ps]    (.putLong ps obj))
-  BigInt      (hash! [^BigInt obj ^PrimitiveSink ps]  (.putBytes ps (-> obj .toBigInteger .toByteArray)))
+  BigInt      (hash! [^BigInt obj ^PrimitiveSink ps]  (.putBytes ps ^bytes (-> obj .toBigInteger .toByteArray)))
   BigDecimal  (hash! [^BigDecimal obj ^PrimitiveSink ps] (.putString ps (.toEngineeringString obj) Charsets/US_ASCII))
   Float       (hash! [^Float obj ^PrimitiveSink ps]   (.putFloat ps obj))
   Double      (hash! [^Double obj ^PrimitiveSink ps]  (.putDouble ps obj))
@@ -51,6 +51,33 @@
   Seqable     (hash! [^Seqable obj ^PrimitiveSink ps] (hash! (.seq obj) ps))
   Sequential  (hash! [^Sequential obj ^PrimitiveSink ps]  (doseq [elem obj] (hash! elem ps)))
   Associative (hash! [^Associative obj ^PrimitiveSink ps] (doseq [entry (set obj)] (hash! ^IMapEntry entry ps))))
+
+(extend-protocol Hashable
+  (Class/forName "[Z") (hash! [^booleans obj ^PrimitiveSink ps] (doseq [b obj] (.putBoolean ps b))))
+
+(extend-protocol Hashable
+  (Class/forName "[B") (hash! [^bytes obj ^PrimitiveSink ps] (.putBytes ps ^bytes obj)))
+
+(extend-protocol Hashable
+  (Class/forName "[C") (hash! [^chars obj ^PrimitiveSink ps] (doseq [c obj] (.putChar ps c))))
+
+(extend-protocol Hashable
+  (Class/forName "[S") (hash! [^shorts obj ^PrimitiveSink ps] (doseq [n obj] (.putShort ps n))))
+
+(extend-protocol Hashable
+  (Class/forName "[I") (hash! [^ints obj ^PrimitiveSink ps] (doseq [n obj] (.putInt ps n))))
+
+(extend-protocol Hashable
+  (Class/forName "[J") (hash! [^longs obj ^PrimitiveSink ps] (doseq [n obj] (.putInt ps n))))
+
+(extend-protocol Hashable
+  (Class/forName "[F") (hash! [^floats obj ^PrimitiveSink ps] (doseq [n obj] (.putFloat ps n))))
+
+(extend-protocol Hashable
+  (Class/forName "[D") (hash! [^doubles obj ^PrimitiveSink ps] (doseq [n obj] (.putDouble ps n))))
+
+(extend-protocol Hashable
+  (Class/forName "[Ljava.lang.String;") (hash! [obj ^PrimitiveSink ps] (doseq [s obj] (.putString ps s Charsets/UTF_8))))
 
 (extend-type HashCode
   Encodable
