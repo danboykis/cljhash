@@ -6,6 +6,8 @@ independent of JVM architecture and Object.hashCode implementations.
 
 ## Usage
 
+[![Clojars Project](https://img.shields.io/clojars/v/com.danboykis/cljhash.svg)](https://clojars.org/com.danboykis/cljhash)
+
 ```clojure
 (require '[cljhash.core :as h])
 (import com.google.common.hash.Hashing)
